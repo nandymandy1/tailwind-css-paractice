@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+.card{
+    @apply bg-white rounded rounded-md overflow-hidden shadow-md relative;
+}
+
+
+.badge{
+    @apply bg-secondary-100 text-secondary-200 text-xs uppercase font-bold rounded-full p-2 absolute top-0 ml-2 mt-2;
+}
+
+.btn{
+    @apply rounded-full py-2 px-3 uppercase text-xs font-bold cursor-pointer tracking-wider;
+}
+
+.auth-input{
+    @apply bg-gray-200 py-2 px-3 rounded outline-none;
+}
+
+.search-input{
+    @apply bg-gray-200 py-2 px-3 rounded outline-none;
+}
+
+.auth-btn{
+    @apply text-white rounded mb-3 py-1 px-3;
+}
+
+.auth-btn-link{
+     @apply text-white rounded mb-3 py-1 text-center px-3;
+}
+
+.auth-heading{
+    @apply text-4xl font-bold border-gray-100 border-b-2 mb-2 mx-4 mt-3;
+}
+
+.form-group{
+    @apply flex flex-col justify-around mb-3;
+}
+
+.nav-link{
+    @apply text-white px-2 pt-3 font-body;
+}
+
+.nav-toggler{
+    @apply flex flex-col justify-center border-blue-400 border w-10 h-10 mt-1 rounded text-white mr-2;
+}
+
+.navbar{
+    @apply w-full bg-blue-600 h-12 flex justify-between fixed;
+}
+
+.search-input{
+    @apply py-2 px-3 rounded outline-none bg-white bg-opacity-25 text-white w-full;
+}
+
+.sidebar{
+    @apply absolute top-0 text-white w-full h-full bg-black bg-opacity-75 flex flex-col justify-center items-center;
+}
+
+.sidebar-link{
+    @apply text-white text-xl mb-3;
+}
+.sidebar-link:hover{
+    @apply text-blue-500;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.sad-emoji{
+  animation: shake 1.5s cubic-bezier(.36,.07,.19,.97) infinite;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.form-feedback{
+  animation: shake 0.85s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+
+@keyframes spinner {
+  to {
+      transform: rotate(360deg);
+    }
+}
+ 
+.spinner:before {
+  content: '';
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: -10px;
+  position: absolute;
+  margin-left: -10px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border-top: 2px solid #07d;
+  border-right: 2px solid transparent;
+  animation: spinner 1s linear infinite;
+}

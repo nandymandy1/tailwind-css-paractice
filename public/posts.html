@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Posts</title>
+</head>
+
+<body class="bg-gray-200">
+    <!-- Navbar -->
+    <div id="app">
+        <nav class="w-full bg-black h-12 flex justify-between">
+            <a href="./index.html" class="align-middle mt-1">
+                <h1 class="text-2xl font-bold text-white ml-10 font-body">Logo</h1>
+            </a>
+            <div class="mt-1">
+                <input type="text" class="search-input" placeholder="Search Posts" v-model="keyword">
+            </div>
+            <ul class="flex flex-row justify-center">
+                <a href="" class="nav-link">Home</a>
+                <a href="" class="nav-link">About</a>
+                <a href="" class="nav-link">Contact</a>
+            </ul>
+        </nav>
+        <!-- Navbar -->
+        <!-- Posts -->
+        <div class="grid lg:grid-cols-4 gap-5 mt-10 px-5 mb-10" v-if="!loading && posts.length">
+            <div class="card rounded-none overflow-hidden" v-for="post in posts" :key="post.id">
+                <h1 class="text-xl border border-gray-200 px-3 py-2">{{ post.title }}</h1>
+                <p class="p-5">{{ post.body }}</p>
+            </div>
+        </div>
+        <!-- Posts -->
+        <!-- Loader -->
+        <div v-else-if="loading && !posts.length" class="mx-auto spinner"></div>
+        <!-- Loader -->
+        <!-- No Post Loaded -->
+        <div v-else class="mx-auto center flex flex-col justify-center items-center mt-30">
+            <svg class="w-20 text-yellow-500 sad-emoji" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                <path d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <p class="text-lg">Sorry No Posts found...</p>
+        </div>
+        <!-- No Post Loaded -->
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                temp: [],
+                posts: [],
+                loading: false,
+                keyword: ""
+            },
+            methods: {
+                async getPosts() {
+                    try {
+                        this.loading = true;
+                        let posts = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=12').then(res => res.json())
+                        this.temp = posts;
+                        this.posts = posts;
+                        this.loading = false;
+                        console.log("POSTS", this.posts);
+                    } catch (err) {
+                        this.loading = false;
+                    }
+                }
+            },
+            watch: {
+                keyword() {
+                    if (this.keyword.length > 2) {
+                        this.loading = true;
+                        this.posts = this.temp.filter(post => {
+                            let title = post.title.toLowerCase();
+                            let body = post.body.toLowerCase();
+                            let keyword = this.keyword.toLowerCase();
+                            if (title.includes(keyword) || body.includes(keyword)) {
+                                return post;
+                            }
+                        })
+                        this.loading = false;
+                    } else {
+                        this.posts = this.temp;
+                    }
+                }
+            },
+            async created() {
+                await this.getPosts();
+            }
+        })
+    </script>
+</body>
+
+</html>

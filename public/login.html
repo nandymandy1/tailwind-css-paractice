@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Login</title>
+</head>
+
+<body class="bg-gray-200 font-body">
+    <div id="app">
+        <nav class="navbar">
+            <a href="./index.html" class="align-middle mt-1 ml-5 md:ml-10">
+                <h1 class="text-2xl font-bold text-white font-body">Logo</h1>
+            </a>
+            <ul class="hidden md:flex flex-row justify-center">
+                <a href="./index.html" class="nav-link">Home</a>
+                <a href="./about.html" class="nav-link">About</a>
+                <a href="./contact.html" class="nav-link">Contact</a>
+            </ul>
+            <div class="nav-toggler md:hidden items-center bg-blue-700" @click="toggle">
+                <svg v-if="!toggled" class="w-5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </div>
+
+        </nav>
+
+        <main class="flex flex-col justify-center items-center pt-20 md:pt-32 px-10">
+            <div
+                :class="['card w-screen sm:w-11/12 md:w-6/12', errs.status ? 'border-2 border-red-600 border-opacity-25': '']">
+                <h1 class="auth-heading">Login</h1>
+                <div class="flex flex-col mt-5 justify-center px-5">
+                    <div class="form-group">
+                        <input type="text"
+                            :class="['auth-input', errs.username ? 'border border-red-500 form-feedback' : '' ]"
+                            placeholder="Username" v-model="user.username">
+                        <p class="text-xs text-red-500" v-if="errs.username">Username should be more than 6 characters.
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <input type="password"
+                            :class="['auth-input', errs.password ? 'border border-red-500 form-feedback' : '' ]"
+                            placeholder="Password" v-model="user.password">
+                        <p class="text-xs text-red-500" v-if="errs.password">Password should be more than 8 characters.
+                        </p>
+                    </div>
+                    <div class="flex mb-2">
+                        <button class="auth-btn mr-3 bg-blue-600" @click="authenticate">Login</button>
+                        <a href="./register.html" class="auth-btn-link bg-gray-500">Register</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="sidebar" v-if="toggled">
+            <div class="absolute top-0 right-0 nav-toggler bg-transparent border-gray-500 items-center"
+                @click="toggled = false">
+                <svg class="w-5 text-white" v-if="toggled" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </div>
+            <a class="sidebar-link" href="./index.html">Home</a>
+            <a class="sidebar-link" href="./about.html">About</a>
+            <a class="sidebar-link" href="./contact.html">Contact</a>
+            <a class="sidebar-link" href="./login.html">Login</a>
+            <a class="sidebar-link" href="./register.html">Register</a>
+        </div>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                toggled: false,
+                user: {
+                    username: "",
+                    password: ""
+                },
+                errs: {
+                    username: false,
+                    password: false,
+                    status: false
+                }
+            },
+            methods: {
+                toggle() {
+                    this.toggled = !this.toggled;
+                },
+                authenticate() {
+                    let { username, password } = this.user;
+                    if (username === '' || username.length < 6) {
+                        this.errs.username = true;
+                        this.errs.status = true
+                    }
+                    if (password === '' || password.length < 8) {
+                        this.errs.password = true;
+                        this.errs.status = true
+                    }
+                    if (!this.errs.status) {
+                        console.log("AUTH_PASSED", this.user);
+                        // Authenticate with the api
+                    } else {
+                        this.init()
+                    }
+                },
+                init() {
+                    setTimeout(() => {
+                        this.errs = {
+                            username: false,
+                            password: false,
+                            status: false
+                        }
+                    }, 5000);
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>
