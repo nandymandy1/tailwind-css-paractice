@@ -47,6 +47,7 @@
     @apply text-white px-2 pt-3 font-body;
 }
 
+
 .nav-toggler{
     @apply flex flex-col justify-center border-blue-400 border w-10 h-10 mt-1 rounded text-white mr-2;
 }
